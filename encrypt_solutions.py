@@ -19,17 +19,16 @@ OUTPUT_FILENAME = "cp3404_cryptograms.txt"
 def main():
     """Get names and encrypt them."""
     names = get_names(INPUT_FILENAME)
-    cryptograms = encrypt_names(names)
-    save_results(names, cryptograms, OUTPUT_FILENAME)
+    name_to_cryptogram = encrypt_names(names)
+    save_results(name_to_cryptogram, OUTPUT_FILENAME)
 
 
 def encrypt_names(names):
-    cryptograms = []
+    name_to_cryptogram = {}
     for name in names:
         cryptogram = encrypt_name(name, SHIFT_DISTANCE)
-        cryptograms.append(cryptogram)
-        # print(f"{name} => {cryptogram}")
-    return cryptograms
+        name_to_cryptogram[name] = cryptogram
+    return name_to_cryptogram
 
 
 def get_names(filename):
@@ -54,10 +53,9 @@ def encrypt_name(name, distance):
     return cryptogram
 
 
-def save_results(names, cryptograms, filename):
+def save_results(name_to_cryptogram, filename):
     with open(filename, 'w') as output_file:
-        for i, name in enumerate(names):
-            cryptogram = cryptograms[i]
+        for name, cryptogram in name_to_cryptogram.items():
             print(f"{name} => {cryptogram}", file=output_file)
 
 
